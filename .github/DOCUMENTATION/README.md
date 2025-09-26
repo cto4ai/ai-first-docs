@@ -1,24 +1,7 @@
 # Repository Meta-Documentation
 
-This directory contains documentation about the documentation repository itself.
+This directory contains documentation about how this repository works:
 
-## Contents
+- [AI-First Documentation Strategy](./ai-first-documentation-strategy.md) - Complete guide to our AI-first approach
 
-- **[setup-guide.md](./setup-guide.md)** - Complete guide for setting up a documentation repository
-- **[docs-as-code-strategy.md](./docs-as-code-strategy.md)** - Philosophy and practices for docs-as-code
-
-## Purpose
-
-These documents explain:
-- How this repository is structured
-- How to contribute to documentation
-- Technical decisions and rationale
-- Best practices for documentation
-
-## For New Contributors
-
-Start with the [Docs-as-Code Strategy](./docs-as-code-strategy.md) to understand our approach, then review the [Setup Guide](./setup-guide.md) for technical details.
-
-## Versioning
-
-These meta-documents are versioned alongside the template. When updating the template structure, update these documents accordingly.
+These documents explain the philosophy and technical implementation of this documentation system.
