@@ -594,38 +594,75 @@ I can fix these automatically before committing. Should I proceed?"
 - **Low Scalability Risk**: Built for requirements
 - **Medium Maintenance Risk**: Ongoing updates and support
 
+## Repository Architecture Decision
+
+### Current Repository Focus
+This repository (`ai-first-docs`) is designed to become a **GitHub template** for organizations implementing AI-first documentation strategies. It should remain focused on:
+- Documentation strategy and planning
+- Document templates and examples
+- High-level decision frameworks
+- Implementation guidance
+
+### Proposed MCP Implementation Repository
+**New Repository**: `ai-first-docs-mcp` (to be created)
+**Purpose**: Technical implementation of MCP servers and configurations
+**Contents**:
+- Custom MCP server development
+- Existing MCP configuration templates
+- Deployment documentation and tools
+- Real-world implementation examples
+
+See [MCP Repository Plan](./new-mcp-repository-plan.md) for detailed structure and implementation timeline.
+
+### Benefits of Separation
+- ✅ **Clean Template**: ai-first-docs remains focused strategy template
+- ✅ **Technical Focus**: MCP repo dedicated to implementation details
+- ✅ **Different Audiences**: Strategy vs technical implementers
+- ✅ **Independent Versioning**: Strategy and implementation can evolve separately
+
 ## Next Steps
 
 ### Immediate Actions (This Week)
 
-1. **Repository Setup**
-   - Ensure all target repositories are properly configured
-   - Set up team permissions and access controls
-   - Prepare repository documentation and structure
+1. **Repository Architecture**
+   - Create new `ai-first-docs-mcp` repository for technical implementation
+   - Migrate MCP-specific planning and technical content to new repository
+   - Update current repository to focus on strategy template
+   - Establish cross-repository documentation links
 
-2. **MCP Configuration**
-   - Install and configure existing MCP servers
-   - Create configuration templates for team members
-   - Test basic functionality with technical team
+2. **MCP Implementation Planning**
+   - Set up development environment for custom MCP development
+   - Define multi-repository coordinator MCP specifications
+   - Create existing MCP configuration templates
 
-3. **User Onboarding Design**
-   - Design PAT generation and distribution process
-   - Create onboarding documentation for non-technical users
-   - Plan training sessions and support resources
+3. **Strategy Template Refinement**
+   - Finalize current repository as clean GitHub template
+   - Remove technical implementation details
+   - Add references to MCP implementation repository
 
 ### Short Term (Next 2-4 Weeks)
 
-- Execute Phase 1 and Phase 2 implementation
-- Gather comprehensive feedback on user experience
-- Document specific gaps and improvement opportunities
-- Make go/no-go decision on custom MCP development
+**MCP Repository Development:**
+- Implement multi-repository coordinator MCP (1-2 weeks)
+- Create comprehensive setup and deployment documentation
+- Build example configurations and workflows
 
-### Long Term (2-3 Months)
+**Strategy Repository:**
+- Finalize as production GitHub template
+- Create template initialization and customization tools
+- Document relationship to MCP implementation repository
 
-- Based on Phase 2 results, implement custom tools or full MCP
-- Scale to full organization deployment
-- Optimize based on usage patterns and feedback
-- Document lessons learned and best practices
+### Long Term (1-3 Months)
+
+**MCP Ecosystem:**
+- Enhanced artifact integration features
+- Advanced template and workflow systems
+- Production deployment tools and monitoring
+
+**Template Ecosystem:**
+- Community contributions and examples
+- Organization-specific customization guides
+- Integration with broader AI-first tooling ecosystem
 
 ## Artifact Integration Enhancement
 
