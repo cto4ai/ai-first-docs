@@ -152,7 +152,7 @@ class AIFirstDocsMCP {
 
 **Cons:**
 
-- ❌ Weeks/months of development time
+- ❌ 1-2 weeks of development time
 - ❌ Ongoing maintenance burden
 - ❌ Security responsibility
 - ❌ Testing and reliability challenges
@@ -589,10 +589,10 @@ I can fix these automatically before committing. Should I proceed?"
 
 ### Custom MCP Risks
 
-- **High Technical Risk**: Custom development, testing, security
+- **Medium Technical Risk**: Straightforward GitHub API integration, ~1-2 weeks development
 - **Low User Experience Risk**: Optimized for specific workflows
 - **Low Scalability Risk**: Built for requirements
-- **High Maintenance Risk**: Ongoing development and support
+- **Medium Maintenance Risk**: Ongoing updates and support
 
 ## Next Steps
 
@@ -844,7 +844,7 @@ Claude:
 
 #### Phase 2: Multi-Repository Support (Custom MCP Required)
 
-**🔧 Custom Development Needed for:**
+**🔧 Simple Custom Development (1-2 weeks):**
 - Cross-repository search and coordination
 - Unified interface across multiple repos
 - Multi-repo artifact generation
