@@ -1,0 +1,135 @@
+name: Repository Health Check
+
+# Optional monitoring - runs weekly to assess overall repository quality
+# Does not block any workflows, just provides insights
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9 AM UTC
+  workflow_dispatch:     # Allow manual triggering
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run quality checks
+        id: quality
+        continue-on-error: true
+        run: |
+          echo "## Repository Health Report" > health-report.md
+          echo "" >> health-report.md
+          echo "### AI Commit Activity" >> health-report.md
+          AI_COMMITS=$(git log --oneline --grep="🤖" --since="1 week ago" | wc -l)
+          MANUAL_COMMITS=$(git log --oneline --grep="🤖" --invert-grep --since="1 week ago" | wc -l)
+          echo "- AI commits this week: $AI_COMMITS" >> health-report.md
+          echo "- Manual commits this week: $MANUAL_COMMITS" >> health-report.md
+          echo "" >> health-report.md
+
+          echo "### Documentation Quality Metrics" >> health-report.md
+          DOC_COUNT=$(find docs -name "*.md" | wc -l)
+          echo "- Total documents: $DOC_COUNT" >> health-report.md
+
+          echo "### Quality Check Results" >> health-report.md
+          echo "Running validation checks for informational purposes..." >> health-report.md
+
+          # Run linting but don't fail the workflow
+          if npm run lint 2>&1 | tee lint-results.txt; then
+            echo "✅ Markdown linting: PASSED" >> health-report.md
+          else
+            echo "⚠️ Markdown linting: Some issues found" >> health-report.md
+            echo "<details><summary>Linting Details</summary>" >> health-report.md
+            echo "" >> health-report.md
+            echo '```' >> health-report.md
+            cat lint-results.txt >> health-report.md
+            echo '```' >> health-report.md
+            echo "</details>" >> health-report.md
+          fi
+
+          # Run spell check
+          if npm run spell 2>&1 | tee spell-results.txt; then
+            echo "✅ Spell check: PASSED" >> health-report.md
+          else
+            echo "⚠️ Spell check: Some issues found" >> health-report.md
+            echo "<details><summary>Spell Check Details</summary>" >> health-report.md
+            echo "" >> health-report.md
+            echo '```' >> health-report.md
+            cat spell-results.txt >> health-report.md
+            echo '```' >> health-report.md
+            echo "</details>" >> health-report.md
+          fi
+
+          # Run link check
+          if npm run links 2>&1 | tee link-results.txt; then
+            echo "✅ Link validation: PASSED" >> health-report.md
+          else
+            echo "⚠️ Link validation: Some issues found" >> health-report.md
+            echo "<details><summary>Link Check Details</summary>" >> health-report.md
+            echo "" >> health-report.md
+            echo '```' >> health-report.md
+            cat link-results.txt >> health-report.md
+            echo '```' >> health-report.md
+            echo "</details>" >> health-report.md
+          fi
+
+          echo "" >> health-report.md
+          echo "### Recommendations" >> health-report.md
+          echo "This is an informational report. For AI-first repositories:" >> health-report.md
+          echo "- ✅ AI commits (🤖) handle their own quality control" >> health-report.md
+          echo "- ✅ Manual technical edits go through PR validation" >> health-report.md
+          echo "- ✅ No action required unless patterns indicate AI instruction updates needed" >> health-report.md
+
+          cat health-report.md
+
+      - name: Create health report issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('health-report.md', 'utf8');
+
+            // Check if there's already an open health report issue
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['repository-health'],
+              state: 'open'
+            });
+
+            const title = '📊 Weekly Repository Health Report';
+            const body = report + '\n\n---\n*This is an automated informational report. No action required for AI-first repositories.*';
+
+            if (issues.data.length > 0) {
+              // Update existing issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues.data[0].number,
+                title: title,
+                body: body
+              });
+            } else {
+              // Create new issue
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['repository-health', 'documentation']
+              });
+            }

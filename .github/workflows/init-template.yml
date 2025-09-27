@@ -91,15 +91,24 @@ jobs:
               4. [ ] Configure branch protection rules in Settings → Branches
               5. [ ] Set up team permissions in Settings → Manage access
 
-              ### 🛠️ AI Integration Setup
+              ### 🛠️ AI Integration Setup (For Non-Technical Users)
               1. **GitHub PAT**: Create organization-scoped fine-grained token
               2. **MCP Configuration**: See \`.claude/DOCUMENT_ASSISTANT.md\` for instructions
               3. **Test Workflow**: Try editing example policies with AI assistance
+              4. **AI Workflow**: Direct commits to main branch (no PR required)
 
-              ### 🔧 Traditional Tools (Optional)
-              - Run \`npm run validate\` to check documentation quality
-              - See [setup guide](.github/DOCUMENTATION/setup-guide.md) for detailed instructions
-              - Use [example content](docs/examples/) as templates
+              ### 👨‍💻 Technical Contributor Setup (Optional)
+              For developers and technical writers who prefer traditional workflows:
+              - **Pull Request Workflow**: Create PRs for documentation changes
+              - **Full CI/CD Validation**: Automatic linting, spell check, and link validation
+              - **Local Development**: Run \`npm run validate\` to check documentation quality
+              - **Quality Assurance**: All manual edits go through validation before merge
+
+              ### 🔄 Dual Workflow Benefits
+              - **Non-technical users**: AI-first editing with no technical barriers
+              - **Technical users**: Traditional PR workflow with full validation
+              - **Quality maintained**: Each workflow has appropriate quality controls
+              - **Team flexibility**: Choose the right workflow for each contributor
 
               ### 📖 Learn More
               - [AI-First Documentation Strategy](.github/DOCUMENTATION/ai-first-documentation-strategy.md)

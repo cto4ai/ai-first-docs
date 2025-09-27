@@ -108,21 +108,34 @@ This template includes example policies that demonstrate AI-first editing:
 
 See [setup guide](.github/DOCUMENTATION/setup-guide.md) for detailed instructions.
 
-## 🛠️ Traditional Tools (Optional)
+## 🛠️ Dual Workflow Support
+
+### AI-First Workflow (Recommended for Non-Technical Users)
+- **Direct commits** to main branch through AI assistant
+- **No validation barriers** - AI handles formatting and quality
+- **Visual editing** through artifacts interface
+- **Business-friendly** language and processes
+
+### Traditional Technical Workflow
+- **Pull request based** development workflow
+- **Full CI/CD validation** (linting, spell check, link validation)
+- **Command line tools** for local development
+- **Technical contribution** standards
 
 ```bash
-# Install dependencies
-npm install
-
-# Validate documentation
-npm run validate
-
-# Check spelling and links
-npm run spell && npm run links
-
-# Fix markdown formatting
-npm run lint
+# For technical contributors
+npm install              # Install dependencies
+npm run validate        # Full validation suite
+npm run lint            # Fix markdown formatting
+npm run spell           # Check spelling
+npm run links           # Validate links
 ```
+
+### Workflow Selection Guide
+- **📝 Content creators, policy writers, non-technical users** → Use AI assistant
+- **👨‍💻 Developers, technical writers, system administrators** → Use PR workflow
+- **🤖 AI commits** → Direct to main with quality handled by AI instructions
+- **🔧 Manual commits** → Via pull requests with full validation
 
 ## 📖 AI-First Philosophy
 
