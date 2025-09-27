@@ -18,7 +18,7 @@ Thumbs.db
 .idea/
 *.iml
 .history/
-.claude/
+.claude/settings.local.json
 
 # Logs
 logs
