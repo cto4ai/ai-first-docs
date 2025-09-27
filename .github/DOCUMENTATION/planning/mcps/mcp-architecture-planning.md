@@ -639,7 +639,7 @@ Based on confirmed technical capabilities, Claude Desktop can extract artifact c
 - ✅ **Markdown Export**: Claude can save artifact content as properly formatted markdown files
 - ✅ **File System Access**: Claude can write extracted content to local or remote destinations
 
-This confirms that bidirectional artifact ↔ repository integration is technically feasible.
+This confirms that bidirectional artifact ↔ repository integration is technically feasible using existing MCP servers with intelligent prompting workflows.
 
 ### Enhanced User Workflow with Artifacts
 
@@ -677,36 +677,44 @@ Claude:
 4. Confirms successful update ✅
 ```
 
-### Custom MCP Server Enhancements Required
+### Artifact Integration Implementation Options
 
-#### New MCP Tools for Artifact Integration
+#### Option A: Prompt-Driven Workflow with Existing MCPs ✅ **RECOMMENDED**
+
+**No custom MCP development required!** This approach uses existing GitHub MCP servers with intelligent prompting:
+
+```text
+User: "Edit the vacation policy"
+
+Claude Workflow:
+1. Call existing GitHub MCP `get_file_contents` ✅
+2. Create artifact with returned content ✅
+3. Present visual editing interface ✅
+4. When user says "commit": extract artifact content ✅
+5. Call existing GitHub MCP `create_or_update_file` ✅
+```
+
+**Key Insight**: MCP servers don't need to be "artifact-aware" - they just provide content in/out while Claude handles artifact creation and extraction through existing capabilities.
+
+#### Option B: Custom MCP Tools for Advanced Features
+
+**Only needed for advanced scenarios** that require specialized artifact integration:
 
 ```javascript
-{
-  name: 'load_repo_to_artifact',
-  description: 'Load repository content and create editable artifact',
-  parameters: {
-    file_path: 'string',
-    artifact_type: 'enum', // policy, procedure, prompt, general
-    template: 'string' // optional structured template
-  }
-},
-{
-  name: 'commit_artifact_to_repo',
-  description: 'Extract artifact content and commit to repository',
-  parameters: {
-    artifact_reference: 'string', // however Claude references artifacts
-    file_path: 'string',
-    commit_message: 'string',
-    validate_content: 'boolean' // run pre-commit validation
-  }
-},
 {
   name: 'create_document_template',
   description: 'Generate structured artifact template for document type',
   parameters: {
     document_type: 'enum', // policy, sop, architecture, prompt
     metadata: 'object' // frontmatter fields to include
+  }
+},
+{
+  name: 'cross_repo_artifact_coordination',
+  description: 'Create coordinated artifacts across multiple repositories',
+  parameters: {
+    primary_file_path: 'string',
+    related_repositories: 'array'
   }
 }
 ```
@@ -793,18 +801,20 @@ frontmatter:
 
 ### Advanced Scenarios
 
-#### Multi-Document Coordination
+#### Multi-Document Coordination (**Custom MCP Required**)
 
 ```text
 User: "I updated the vacation policy artifact. Are there other documents that reference this?"
 
-Claude:
+Claude (with Custom MCP):
 1. Commits artifact changes to vacation policy ✅
-2. Scans related repositories for references ✅
-3. Creates artifacts for each document needing updates ✅
+2. Scans related repositories for references ✅ **Requires Custom MCP**
+3. Creates artifacts for each document needing updates ✅ **Requires Custom MCP**
 4. User reviews and approves cross-repo changes ✅
-5. Commits coordinated updates across repositories ✅
+5. Commits coordinated updates across repositories ✅ **Requires Custom MCP**
 ```
+
+**Note**: This advanced scenario requires custom MCP development for multi-repository coordination.
 
 #### Approval Workflow Integration
 
@@ -821,35 +831,48 @@ Claude:
 
 ### Implementation Phases
 
-#### Phase 1: Basic Artifact Integration
+#### Phase 1: Prompt-Driven Artifact Integration (Existing MCPs)
 
-- Implement `load_repo_to_artifact` and `commit_artifact_to_repo` tools
-- Support simple markdown documents
+**✅ Immediate Implementation - No Custom Development**
+- Use existing GitHub MCP servers with smart prompting
+- Load repository content → create artifacts via prompting
+- Extract artifact content → commit via existing MCP tools
 - Single repository workflow
-- Manual validation
+- Manual validation through existing git hooks
 
-#### Phase 2: Template System
+**Benefits**: Fast implementation, proven MCP servers, full artifact editing experience
 
-- Document type templates (policies, procedures, prompts)
-- Structured form-based artifact creation
+#### Phase 2: Multi-Repository Support (Custom MCP Required)
+
+**🔧 Custom Development Needed for:**
+- Cross-repository search and coordination
+- Unified interface across multiple repos
+- Multi-repo artifact generation
+- Relationship mapping between repositories
+
+#### Phase 3: Advanced Artifact Features (Custom MCP Enhancement)
+
+**🚀 Advanced Features Building on Custom MCP:**
+- Structured document templates with form-based artifacts
 - Automatic frontmatter generation
-- Content validation integration
-
-#### Phase 3: Advanced Features
-
-- Cross-repository coordination
-- Approval workflow integration
-- Collaborative artifact sharing
-- Advanced content templates
+- Cross-repository workflow coordination
+- Advanced content validation and templates
 
 ### Development Considerations
 
 #### Technical Requirements
 
-- **MCP Server Enhancement**: Custom tools for artifact integration
-- **Content Validation**: Ensure artifact content meets repository standards
-- **Error Handling**: Graceful failure when artifact extraction fails
-- **Performance**: Efficient handling of large documents in artifacts
+**Phase 1 (Existing MCPs):**
+- **Prompt Engineering**: Standardized workflows for artifact creation/extraction
+- **Content Validation**: Leverage existing git hooks and repository validation
+- **Error Handling**: Standard MCP error handling for file operations
+- **Performance**: Existing GitHub MCP performance characteristics
+
+**Phase 2+ (Custom MCP):**
+- **MCP Server Development**: Multi-repository coordination tools
+- **Advanced Validation**: Custom business logic and content rules
+- **Enhanced Error Handling**: Artifact-specific error recovery
+- **Optimized Performance**: Caching and indexing for multiple repositories
 
 #### User Experience Design
 
