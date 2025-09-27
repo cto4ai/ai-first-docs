@@ -1,0 +1,134 @@
+name: Initialize Template
+
+# Only runs once when repository is created from template
+on:
+  push:
+    branches: [main]
+
+jobs:
+  initialize:
+    if: github.repository != 'cto4ai/ai-first-docs'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Personalize repository
+        run: |
+          # Basic template variable replacement using repository information
+          REPO_NAME="${{ github.event.repository.name }}"
+          GITHUB_ORG="${{ github.repository_owner }}"
+          COMPANY_NAME="${{ github.repository_owner }}"
+
+          echo "Personalizing repository with:"
+          echo "  REPO_NAME: $REPO_NAME"
+          echo "  GITHUB_ORG: $GITHUB_ORG"
+          echo "  COMPANY_NAME: $COMPANY_NAME"
+
+          # Replace template variables in key files (including AI instructions)
+          find . -name "*.md" -o -name "*.json" -o -name "*.yml" | grep -v node_modules | while read -r file; do
+            echo "Processing: $file"
+            sed -i.bak \
+              -e "s/{{REPO_NAME}}/$REPO_NAME/g" \
+              -e "s/{{GITHUB_ORG}}/$GITHUB_ORG/g" \
+              -e "s/{{COMPANY_NAME}}/$COMPANY_NAME/g" \
+              -e "s/{{DOCS_EMAIL}}/docs@${GITHUB_ORG}.com/g" \
+              -e "s/{{SLACK_CHANNEL}}/#docs-help/g" \
+              "$file"
+          done
+
+          # Clean up backup files
+          find . -name "*.bak" -delete
+
+          # Replace template README with user README
+          mv USER_README.md README.md
+
+          # Keep docs/examples for reference (AI-first difference)
+          echo "Keeping example content for AI-first workflow reference"
+
+          # Remove template instructions if they exist
+          rm -f TEMPLATE_INSTRUCTIONS.md
+
+      - name: Install dependencies
+        run: |
+          echo "Installing Node.js dependencies..."
+          npm install
+          echo "Dependencies installed successfully!"
+
+      - name: Create setup issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🤖 AI-First Documentation Repository Ready!',
+              body: `## Welcome to your personalized AI-first documentation repository!
+
+              Your repository has been automatically configured with:
+              - ✅ Template variables replaced with your organization information
+              - ✅ AI instructions configured in \`.claude/DOCUMENT_ASSISTANT.md\`
+              - ✅ Example policies available for reference and testing
+              - ✅ Dependencies installed and validation ready
+
+              ### 🚀 Quick Start with AI
+              Try these commands with your AI assistant:
+              - **"Load the vacation policy into an artifact for editing"**
+              - **"Create a new remote work policy for our company"**
+              - **"Show me the example policies in this repository"**
+
+              ### 📋 Next Steps
+              1. [ ] Set up GitHub Personal Access Token for AI integration
+              2. [ ] Configure Claude Desktop or compatible AI interface
+              3. [ ] Test AI editing with example content in \`docs/examples/\`
+              4. [ ] Configure branch protection rules in Settings → Branches
+              5. [ ] Set up team permissions in Settings → Manage access
+
+              ### 🛠️ AI Integration Setup
+              1. **GitHub PAT**: Create organization-scoped fine-grained token
+              2. **MCP Configuration**: See \`.claude/DOCUMENT_ASSISTANT.md\` for instructions
+              3. **Test Workflow**: Try editing example policies with AI assistance
+
+              ### 🔧 Traditional Tools (Optional)
+              - Run \`npm run validate\` to check documentation quality
+              - See [setup guide](.github/DOCUMENTATION/setup-guide.md) for detailed instructions
+              - Use [example content](docs/examples/) as templates
+
+              ### 📖 Learn More
+              - [AI-First Documentation Strategy](.github/DOCUMENTATION/ai-first-documentation-strategy.md)
+              - [Example Policies](docs/examples/policies/) for reference
+              - AI instructions are in \`.claude/DOCUMENT_ASSISTANT.md\`
+
+              **Ready to revolutionize your documentation workflow?** Ask your AI assistant: *"How do I create my first company policy using this repository?"*
+
+              You can close this issue when your AI-first workflow is set up and tested!`
+            })
+      
+      - name: Commit personalized changes
+        run: |
+          # Delete this initialization workflow
+          rm .github/workflows/init-template.yml
+
+          # Configure git
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Check if there are changes to commit
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "Committing personalized changes..."
+            git add -A
+            git commit -m "Initialize documentation repository from template - Replace template variables with repository information - Remove example content and template instructions - Set up basic configuration - Remove initialization workflow"
+
+            echo "Pushing changes..."
+            git push
+            echo "Repository initialization complete!"
+          else
+            echo "No changes to commit"
+          fi
