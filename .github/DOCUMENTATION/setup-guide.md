@@ -34,6 +34,7 @@ This documentation system is available as a GitHub template. Instead of manual s
    After creating your repository from the template, GitHub Actions will automatically:
    - Install Node.js dependencies
    - Replace all template variables with your repository information
+   - **Create personalized Claude configuration** from template
    - Remove example content and template instruction files
    - Create a personalized setup issue with next steps
    - Remove the initialization workflow (it only runs once)
@@ -41,6 +42,7 @@ This documentation system is available as a GitHub template. Instead of manual s
 3. **What You Get**
    Your new repository will be immediately ready with:
    - Personalized README.md with your repository name
+   - **Personalized CLAUDE.md** with your organization context
    - All placeholder variables replaced
    - Working GitHub Actions workflows for validation
    - Clean directory structure ready for your content
@@ -57,6 +59,32 @@ The GitHub Actions workflow automatically replaces template variables using your
 | `cto4ai` | Repository owner | "your-org" |
 | `docs@example.com` | Default placeholder | "docs@example.com" |
 | `#docs-help` | Default placeholder | "#docs-help" |
+
+### AI Assistant Configuration
+
+#### CLAUDE.md Template System
+
+The template includes a sophisticated configuration system for AI assistants:
+
+**For Template Repository (Public):**
+- Contains `CLAUDE.md.template` with organization placeholders
+- **No private instructions** are included in the public template
+- Safe for public "Use as template" without exposing private context
+
+**For User Repositories (Private):**
+- GitHub Actions automatically converts `CLAUDE.md.template` → `CLAUDE.md`
+- Personalizes configuration with your organization information:
+  - `{{ORGANIZATION_NAME}}` → Your company name
+  - `{{REPOSITORY_NAME}}` → Your repository name
+  - `{{ORGANIZATION_DOMAIN}}` → Your domain (e.g., "company.com")
+  - `{{PRIMARY_USE_CASE}}` → "Company documentation and policies"
+  - `{{MCP_SETUP_STATUS}}` → Current MCP integration status
+
+**Privacy Benefits:**
+- ✅ Template repository stays clean and generic
+- ✅ No private instructions leak to template users
+- ✅ Each organization gets personalized AI context
+- ✅ Development context stays in private implementation repository
 
 **Advanced Customization** (optional): The automatic setup provides sensible defaults. If you need different values, you can manually edit files in your personalized repository or run `npm run init` for interactive customization of all template variables.
 
