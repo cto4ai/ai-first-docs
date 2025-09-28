@@ -94,6 +94,47 @@ Your AI assistant can help with:
 - **Document AI usage** in commit messages when appropriate
 - **Test workflows** with example content before making real changes
 
+## 🤖 AI Assistant Setup
+
+This repository includes pre-configured AI assistant instructions designed for your organization's documentation workflow.
+
+### Claude Desktop Integration
+
+**Set up your Documentation Assistant:**
+
+1. **Copy Master Instructions**
+   - Open `.claude/DOCUMENT_ASSISTANT.md` in this repository
+   - Copy the entire content to your Claude Desktop Project instructions
+   - These instructions are already personalized for {{ORGANIZATION_NAME}}
+
+2. **For Claude Team Users**
+   - Create a shared "{{ORGANIZATION_NAME}} Documentation" Project
+   - Import the instructions to enable team-wide consistent AI assistance
+   - All team members can then use the same documentation assistant behavior
+
+3. **Test Your Setup**
+   ```
+   Try asking: "Load the vacation policy into an artifact for editing"
+   Try asking: "Create a new remote work policy for our company"
+   ```
+
+### Dual AI Integration
+
+This repository supports two complementary AI workflows:
+
+- **CLAUDE.md**: Configuration for Claude Code integration (technical editing, development workflow)
+- **DOCUMENT_ASSISTANT.md**: Instructions for Claude Desktop Projects (business user editing, artifact-based workflow)
+
+Both files work together to provide comprehensive AI-first documentation support.
+
+### Customization Options
+
+The assistant instructions can be customized for {{ORGANIZATION_NAME}}'s specific needs:
+- Modify tone and language preferences
+- Update approval workflow requirements
+- Add compliance and regulatory constraints
+- Include organization-specific terminology
+
 ## 📞 Support
 
 - **Documentation Issues**: Create an issue in this repository

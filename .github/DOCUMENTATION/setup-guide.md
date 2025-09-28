@@ -88,6 +88,43 @@ The template includes a sophisticated configuration system for AI assistants:
 
 **Advanced Customization** (optional): The automatic setup provides sensible defaults. If you need different values, you can manually edit files in your personalized repository or run `npm run init` for interactive customization of all template variables.
 
+#### DOCUMENT_ASSISTANT.md Customization
+
+The template includes master AI assistant instructions that should be tailored for your organization:
+
+**Step 1: Review Master Instructions**
+- The file `.claude/DOCUMENT_ASSISTANT.md` contains comprehensive assistant behavior guidelines
+- These are designed as a starting template, not final instructions
+- Review sections like "Working with {{ORGANIZATION_NAME}} Content" for customization opportunities
+
+**Step 2: Common Organizational Customizations**
+
+*Tone and Language:*
+```markdown
+# Replace generic language with your style
+- "professional tone appropriate for {{ORGANIZATION_NAME}}"
++ "collaborative tone matching Acme Corp's open culture"
+```
+
+*Approval Workflows:*
+```markdown
+# Customize approval requirements
+- Generic: "policy changes require human review"
++ Specific: "policy changes require legal team approval via Slack #legal-review"
+```
+
+*Compliance Requirements:*
+```markdown
+# Add regulatory constraints
++ "Ensure GDPR compliance for all data handling procedures"
++ "Follow SOC2 documentation standards for security policies"
+```
+
+**Step 3: Claude Desktop Integration**
+- **Individual Users**: Copy customized `.claude/DOCUMENT_ASSISTANT.md` to your Claude Desktop Project
+- **Claude Team**: Import content into shared Documentation Project for team access
+- **Testing**: Validate assistant behavior with example documents before production use
+
 ## Included Configuration Files
 
 The template includes pre-configured files that you may want to customize:

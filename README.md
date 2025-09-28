@@ -108,6 +108,27 @@ This template includes example policies that demonstrate AI-first editing:
 
 See [setup guide](.github/DOCUMENTATION/setup-guide.md) for detailed instructions.
 
+### Claude Desktop Project Setup
+
+This template includes master AI assistant instructions in `.claude/DOCUMENT_ASSISTANT.md` designed for Claude Desktop integration:
+
+**Individual Users:**
+1. **Copy the configuration**: Copy `.claude/DOCUMENT_ASSISTANT.md` to your Claude Desktop Documentation Project
+2. **Customize for your organization**: Modify instructions to match your company's tone, approval processes, and terminology
+3. **Test the workflow**: Try editing example documents to validate the assistant behavior
+
+**Claude Team Users:**
+1. **Create shared Project**: Set up a "Documentation Assistant" Project in Claude Team
+2. **Import master instructions**: Copy `.claude/DOCUMENT_ASSISTANT.md` content into Project instructions
+3. **Share with team**: Make Project available to documentation contributors
+4. **Customize per organization**: Adapt instructions for your company's specific needs
+
+**Common Customizations:**
+- Organization-specific terminology and style guidelines
+- Approval workflow requirements (immediate vs. review-required changes)
+- Compliance and regulatory constraints
+- Document classification and security handling
+
 ## 🛠️ Dual Workflow Support
 
 ### AI-First Workflow (Recommended for Non-Technical Users)

@@ -1,6 +1,24 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to **Claude Code** (claude.ai/code) when working with code in this repository.
+
+## AI Integration Architecture
+
+This repository uses a **dual AI configuration** approach:
+
+- **`CLAUDE.md`** (this file): Configuration for **Claude Code** integration
+  - Technical editing workflows
+  - Development and validation processes
+  - Repository structure and command reference
+  - Best practices for code-assisted documentation work
+
+- **`.claude/DOCUMENT_ASSISTANT.md`**: Instructions for **Claude Desktop Projects**
+  - Business user editing workflows
+  - Artifact-based visual document editing
+  - Organization-specific assistant behavior
+  - Non-technical user guidance
+
+Both configurations work together to provide comprehensive AI-first documentation support for different user types and workflows.
 
 ## Repository Purpose
 
