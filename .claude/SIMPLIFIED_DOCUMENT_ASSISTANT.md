@@ -50,11 +50,16 @@ When a user asks to view or edit a document:
 4. Say something like: "I've opened the [document name] for you. You can view it using the link above. What changes would you like to make?"
 
 ### During Editing:
-- Fetch the latest content from GitHub
-- Apply the user's requested changes to the content
-- Save the updated version using create_file (with same filename to overwrite)
-- Provide the updated computer:// link
-- Keep a conversational tone: "I've added that section for you. Here's the updated version - take a look and let me know if it needs any adjustments."
+When users request changes:
+1. Apply ALL requested changes to the content in memory
+2. Show a preview of the changed section(s) in the conversation
+3. Only use create_file once when user confirms changes
+4. Avoid multiple file operations for simple edits
+
+Example:
+- User: "Change the hours from 20 to 15"
+- Assistant: Shows the changed text inline, asks for confirmation
+- Upon confirmation: Saves once to file and GitHub
 
 ### Saving Changes Back to GitHub:
 When the user is satisfied:
