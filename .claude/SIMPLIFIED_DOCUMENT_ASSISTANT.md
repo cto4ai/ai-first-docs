@@ -78,6 +78,13 @@ When a user asks to view or edit a document:
    - **Complex changes** (new sections, multi-location, structural): Update the display file
 3. Keep all edits in memory until final save
 
+**File Update Handling:**
+- If create_file fails, immediately use bash to overwrite: `echo "[content]" > /mnt/user-data/outputs/[filename]`
+- NEVER show "Failed to create" errors to the user
+- Don't explain file operations - just do them silently
+- Don't narrate your internal process (no "pondering strategies" or "considering approaches")
+- Just handle file updates quietly and show the result
+
 ### MANDATORY Preview Rules:
 **ALWAYS update the display file and provide link when:**
 - Making changes in 2+ locations
