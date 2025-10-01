@@ -7,8 +7,11 @@ Welcome to our AI-first documentation repository. This is your central hub for p
 This repository is designed for **AI-first documentation editing**. You can interact with your documentation using natural language through AI assistants that understand your organizational context.
 
 ### Quick Start Examples
-- **"Load the vacation policy into an artifact for editing"**
-- **"Update the remote work policy to allow 4-day work weeks"**
+
+**First, paste the repo access prompt** from `docs/prompts/doc-repo-related/repo-access-instructions.md`, then try:
+
+- **"Show me the vacation policy"** → Use coaxing prompt to open as artifact → **"Update it to add 2 more PTO days"**
+- **"List the policies in this repository"**
 - **"Create a new expense policy for travel reimbursements"**
 - **"Draft a security policy based on our compliance requirements"**
 
@@ -17,15 +20,21 @@ This repository is designed for **AI-first documentation editing**. You can inte
 - **`docs/policies/`** - Company policies and governance documents
 - **`docs/procedures/`** - Standard operating procedures and runbooks
 - **`docs/architecture/`** - Technical documentation and system architecture
-- **`docs/examples/`** - Example content and templates for reference
+- **`docs/guides/`** - How-to guides and tutorials
+- **`docs/references/`** - API documentation and reference materials
+- **`docs/templates/`** - Document templates with AI instructions
+- **`docs/prompts/`** - Copy-paste prompts for Claude Desktop workflows
+- **`docs/cheatsheets/`** - Quick reference guides
+- **`docs/examples/`** - Example content for testing and reference
+- **`docs/assets/`** - Images and other media files
 
 ## 🚀 Getting Started
 
-### For AI-Powered Editing
-1. **Ask your AI assistant** to help with documentation tasks
-2. **Use artifacts** for visual editing before committing changes
-3. **Review AI-generated content** before it's committed to the repository
-4. **AI instructions** are configured in `.claude/DOCUMENT_ASSISTANT.md`
+### For AI-Powered Editing (Claude Desktop)
+1. **Start each chat** by pasting the prompt from `docs/prompts/doc-repo-related/repo-access-instructions.md`
+2. **Ask your AI assistant** to help with documentation tasks
+3. **Use artifacts** for visual editing (use the coaxing prompt if needed)
+4. **Review AI-generated content** before it's committed to the repository
 
 ### For Traditional Editing
 1. See [CONTRIBUTING.md](CONTRIBUTING.md) for documentation guidelines
@@ -96,49 +105,50 @@ Your AI assistant can help with:
 
 ## 🤖 AI Assistant Setup
 
-This repository includes pre-configured AI assistant instructions designed for your organization's documentation workflow.
+This repository uses a **copy-paste prompt approach** for Claude Desktop that's been proven to work reliably.
 
 ### Claude Desktop Integration
 
-**Set up your Documentation Assistant:**
+**Quick Setup (Recommended Workflow):**
 
-1. **Copy Master Instructions**
-   - Open `.claude/DOCUMENT_ASSISTANT.md` in this repository
-   - Copy the entire content to your Claude Desktop Project instructions
-   - These instructions are already personalized for {{ORGANIZATION_NAME}}
+1. **Start Each Chat Session** with the repository access prompt:
+   - Open `docs/prompts/doc-repo-related/repo-access-instructions.md`
+   - Replace `{{MCP_NAME}}` with your actual MCP configuration name from Claude Desktop settings
+   - Copy and paste the personalized prompt at the start of your chat
 
-2. **For Claude Team Users**
-   - Create a shared "{{ORGANIZATION_NAME}} Documentation" Project
-   - Import the instructions to enable team-wide consistent AI assistance
-   - All team members can then use the same documentation assistant behavior
+2. **Working with Documents**:
+   - Ask Claude to find or load documents: *"Show me the vacation policy"*
+   - Use the coaxing prompt from `docs/prompts/doc-repo-related/coaxing.md` to open documents as artifacts
+   - Make your edits with Claude's assistance
 
-3. **Test Your Setup**
-   ```
-   Try asking: "Load the vacation policy into an artifact for editing"
-   Try asking: "Create a new remote work policy for our company"
-   ```
+3. **Why This Approach?**
+   - **Performance**: Short prompts (~7 lines) work reliably in Claude Desktop
+   - **Flexibility**: Each chat session has just the context it needs
+   - **User Control**: You decide what context to provide for each task
+
+   *Previous approach: Long project instructions (300+ lines) caused Claude Desktop to hang*
 
 ### Dual AI Integration
 
 This repository supports two complementary AI workflows:
 
 - **CLAUDE.md**: Configuration for Claude Code integration (technical editing, development workflow)
-- **DOCUMENT_ASSISTANT.md**: Instructions for Claude Desktop Projects (business user editing, artifact-based workflow)
+- **`docs/prompts/`**: Copy-paste prompts for Claude Desktop (business user editing, artifact-based workflow)
 
-Both files work together to provide comprehensive AI-first documentation support.
+Both approaches work together to provide comprehensive AI-first documentation support for different user types.
 
-### Customization Options
+### Customization
 
-The assistant instructions can be customized for {{ORGANIZATION_NAME}}'s specific needs:
-- Modify tone and language preferences
-- Update approval workflow requirements
-- Add compliance and regulatory constraints
-- Include organization-specific terminology
+The prompts in `docs/prompts/doc-repo-related/` can be customized for {{ORGANIZATION_NAME}}'s specific needs:
+- Add organization-specific terminology
+- Include compliance reminders
+- Add workflow-specific instructions
+- Create additional prompts for common tasks
 
 ## 📞 Support
 
 - **Documentation Issues**: Create an issue in this repository
-- **AI Integration Help**: See `.claude/DOCUMENT_ASSISTANT.md` for AI-specific guidance
+- **AI Integration Help**: See `.claude/DOCUMENT_ASSISTANT.md` and `docs/prompts/` for setup guidance
 - **Template Questions**: {{DOCS_EMAIL}}
 - **General Support**: {{SLACK_CHANNEL}}
 
