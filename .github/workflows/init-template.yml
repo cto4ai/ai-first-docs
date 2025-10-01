@@ -54,8 +54,19 @@ jobs:
             echo "⚠️ CLAUDE.md.template not found - skipping Claude configuration"
           fi
 
+          # Personalize prompt templates with repository information
+          echo "Personalizing prompt templates..."
+
+          if [ -f "docs/prompts/doc-repo-related/repo-access-instructions.md" ]; then
+            sed -i.bak \
+              -e "s/{{GITHUB_ORG}}/$GITHUB_ORG/g" \
+              -e "s/{{REPO_NAME}}/$REPO_NAME/g" \
+              "docs/prompts/doc-repo-related/repo-access-instructions.md"
+            echo "✅ Personalized repo-access-instructions.md (MCP_NAME left for manual configuration)"
+          fi
+
           # Replace template variables in other files
-          find . -name "*.md" -o -name "*.json" -o -name "*.yml" | grep -v node_modules | grep -v CLAUDE.md | while read -r file; do
+          find . -name "*.md" -o -name "*.json" -o -name "*.yml" | grep -v node_modules | grep -v CLAUDE.md | grep -v "docs/prompts" | while read -r file; do
             echo "Processing: $file"
             sed -i.bak \
               -e "s/{{REPO_NAME}}/$REPO_NAME/g" \
@@ -99,15 +110,21 @@ jobs:
 
               Your repository has been automatically configured with:
               - ✅ Template variables replaced with your organization information
-              - ✅ AI instructions configured in \`.claude/DOCUMENT_ASSISTANT.md\`
+              - ✅ Copy-paste prompts personalized in \`docs/prompts/doc-repo-related/\`
               - ✅ Example policies available for reference and testing
               - ✅ Dependencies installed and validation ready
 
-              ### 🚀 Quick Start with AI
-              Try these commands with your AI assistant:
-              - **"Load the vacation policy into an artifact for editing"**
+              ### 🚀 Quick Start with Claude Desktop
+
+              **For the best experience**, start each Claude Desktop chat by:
+              1. Open \`docs/prompts/doc-repo-related/repo-access-instructions.md\`
+              2. Replace \`{{MCP_NAME}}\` with your actual MCP configuration name from Claude Desktop settings
+              3. Copy and paste the personalized prompt into Claude
+
+              This tells Claude how to access your repository. Then try:
+              - **"Show me the policies in this repository"**
+              - **"Load the vacation policy"** (then use the coaxing prompt to open as artifact)
               - **"Create a new remote work policy for our company"**
-              - **"Show me the example policies in this repository"**
 
               ### 📋 Next Steps
               1. [ ] Set up GitHub Personal Access Token for AI integration
@@ -118,9 +135,10 @@ jobs:
 
               ### 🛠️ AI Integration Setup (For Non-Technical Users)
               1. **GitHub PAT**: Create organization-scoped fine-grained token
-              2. **MCP Configuration**: See \`.claude/DOCUMENT_ASSISTANT.md\` for instructions
-              3. **Test Workflow**: Try editing example policies with AI assistance
-              4. **AI Workflow**: Direct commits to main branch (no PR required)
+              2. **MCP Configuration**: Set up GitHub MCP in Claude Desktop
+              3. **Copy Prompts**: Use prompts from \`docs/prompts/doc-repo-related/\` to start each chat
+              4. **Test Workflow**: Try editing example policies with AI assistance
+              5. **AI Workflow**: Direct commits to main branch (no PR required)
 
               ### 👨‍💻 Technical Contributor Setup (Optional)
               For developers and technical writers who prefer traditional workflows:
@@ -138,7 +156,8 @@ jobs:
               ### 📖 Learn More
               - [AI-First Documentation Strategy](.github/DOCUMENTATION/ai-first-documentation-strategy.md)
               - [Example Policies](docs/examples/policies/) for reference
-              - AI instructions are in \`.claude/DOCUMENT_ASSISTANT.md\`
+              - [Copy-Paste Prompts](docs/prompts/doc-repo-related/) for Claude Desktop
+              - [Setup Guide](.claude/DOCUMENT_ASSISTANT.md) explains the prompt-based approach
 
               **Ready to revolutionize your documentation workflow?** Ask your AI assistant: *"How do I create my first company policy using this repository?"*
 

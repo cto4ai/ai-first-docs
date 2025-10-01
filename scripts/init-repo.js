@@ -56,6 +56,7 @@ async function init() {
     '{{DOCS_EMAIL}}': answers.docsEmail,
     '{{SLACK_CHANNEL}}': answers.slackChannel,
     '{{GITHUB_ORG}}': answers.githubOrg,
+    '{{MCP_NAME}}': `${answers.repoName}-mcp`,
     '[Company Name]': answers.companyName
   };
   

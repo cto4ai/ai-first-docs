@@ -30,13 +30,13 @@ This repository uses a **dual AI configuration** approach:
   - Repository structure and command reference
   - Best practices for code-assisted documentation work
 
-- **`.claude/DOCUMENT_ASSISTANT.md`**: Instructions for **Claude Desktop Projects**
-  - Business user editing workflows
-  - Artifact-based visual document editing
-  - Organization-specific assistant behavior
-  - Non-technical user guidance
+- **`docs/prompts/doc-repo-related/`**: Copy-paste prompts for **Claude Desktop**
+  - Simple prompts that users paste at the start of each chat
+  - Performs better than long project instructions
+  - Based on real-world testing and usage patterns
+  - See `.claude/DOCUMENT_ASSISTANT.md` for setup guidance
 
-Both configurations work together to provide comprehensive AI-first documentation support for different user types and workflows.
+**Why copy-paste prompts?** Real-world testing showed that long project instructions (300+ lines) cause Claude Desktop to hang. Short copy-paste prompts (~7 lines) work reliably and give users better control over each conversation's context.
 
 ## Repository Purpose
 
@@ -95,11 +95,18 @@ docs/                           # Main documentation content
 ├── architecture/               # Technical documentation
 ├── guides/                     # How-to guides and tutorials
 ├── references/                 # API docs and reference materials
+├── prompts/                    # Copy-paste prompts for Claude Desktop
+│   └── doc-repo-related/       # Repository access and workflow prompts
+│       ├── repo-access-instructions.md  # Tell Claude how to access repo
+│       └── coaxing.md          # Get Claude to open docs as artifacts
 └── templates/                  # Document templates with AI instructions
 
 .github/DOCUMENTATION/          # Meta-documentation (critical reading)
 ├── ai-first-documentation-strategy.md    # Core AI-first paradigm explanation
 └── setup-guide.md             # Repository setup and configuration
+
+.claude/                        # Claude Desktop configuration
+└── DOCUMENT_ASSISTANT.md       # Minimal guide pointing to prompts/
 
 scripts/                        # Utility scripts
 └── init-repo.js               # Interactive repository personalization
@@ -141,9 +148,10 @@ This is a template repository designed to be:
 
 ### Template Customization Process
 When creating a new repository from this template:
-- Replace placeholder variables with organization-specific values
-- Customize AI instructions in `.claude/DOCUMENT_ASSISTANT.md`
-- Update validation rules and workflows
+- The `init-template.yml` workflow automatically personalizes prompts and configurations
+- Placeholder variables (`{{MCP_NAME}}`, `{{GITHUB_ORG}}`, `{{REPO_NAME}}`) are replaced
+- Copy-paste prompts in `docs/prompts/doc-repo-related/` are customized for your repository
+- Update validation rules and workflows as needed
 - Add organization-specific document templates
 
 ## Workflow Integration
