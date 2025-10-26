@@ -1,0 +1,51 @@
+# Available Claude Skills
+
+This folder documents Claude Skills available for working with this repository.
+
+## Primary Skill: github-docs-skill
+
+**Repository**: [cto4ai/claude-skills](https://github.com/cto4ai/claude-skills)
+
+**What it does**:
+- Create, read, update documentation files in this repository
+- Find and search documents
+- Organize documentation structure
+- Commit changes to GitHub
+
+**How to use**:
+- **Internal distribution**: Install from claude-skills repo (current)
+- **Future**: Claude.ai Skills Marketplace
+
+**Example**:
+```
+You: "Create a new security policy in the policies folder"
+Claude: [Uses skill to create file and commit]
+```
+
+## Complementary Skills (Planned)
+
+### repository-browser-skill
+Visual browsing of repository structure and document catalog
+
+### documentation-analyzer-skill
+Find outdated documentation, broken links, and inconsistencies
+
+## Using Skills with This Repository
+
+This repository is configured for Claude Skills via:
+- `.mcp-config.json` with docroot = `docs`
+- Clean directory structure
+- Simple templates ready for AI assistance
+
+## Contributing Skills
+
+To add a new skill for {{COMPANY_NAME}} documentation:
+1. Create skill following [claude-skills structure](https://github.com/cto4ai/claude-skills)
+2. Document in this folder
+3. Submit PR with skill reference
+
+## Ecosystem
+
+**Current**: Claude Skills (Claude.ai)
+**Also available**: github-repos-manager-mcp (Claude Desktop)
+**Planned**: OpenAI-compatible skills

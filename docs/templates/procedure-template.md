@@ -1,68 +1,74 @@
-# Procedure Title
+# [Procedure Name]
 
-## Purpose
+## Overview
 
-[Brief description of what this procedure accomplishes and how it benefits the team]
-
-## Scope
-
-[When and where this procedure applies]
+[Brief description of what this procedure covers and when to use it]
 
 ## Prerequisites
 
-- [ ] Required access/permissions
-- [ ] Required tools/software
-- [ ] Required knowledge
+- [Required access, permissions, or credentials]
+- [Required tools or software]
+- [Required knowledge or training]
 
-## Procedure
+## Procedure Steps
 
-### Step 1: [Action]
+### Step 1: [Step Name]
 
 [Detailed instructions for this step]
 
-**Expected Result:** [What should happen]
+**Expected Result**: [What should happen after completing this step]
 
-### Step 2: [Action]
+### Step 2: [Step Name]
 
-[Detailed instructions]
+[Detailed instructions for this step]
 
-```bash
-# Example command or code
-command --with-options
-```
+**Expected Result**: [What should happen after completing this step]
 
-**Expected Result:** [What should happen]
+### Step 3: [Step Name]
 
-### Step 3: [Action]
+[Detailed instructions for this step]
 
-[Instructions]
+**Expected Result**: [What should happen after completing this step]
 
-> **Note:** [Important information or warning]
-
-**Expected Result:** [What should happen]
-
-## Troubleshooting
-
-| Issue | Possible Cause | Solution |
-|-------|---------------|----------|
-| [Problem description] | [Why it happens] | [How to fix] |
-| [Another problem] | [Cause] | [Solution] |
+[Add more steps as needed]
 
 ## Verification
 
-[How to verify the procedure was successful]
+[How to verify the procedure completed successfully]
+
+## Troubleshooting
+
+### Issue: [Common Problem 1]
+**Solution**: [How to resolve it]
+
+### Issue: [Common Problem 2]
+**Solution**: [How to resolve it]
 
 ## Rollback
 
-[Steps to undo changes if needed]
+[How to undo or rollback changes if something goes wrong]
 
-## Related Documents
+## Examples
 
-- [Link to related policy]
-- [Link to architecture doc]
-- [Link to runbook]
+### Example 1: [Use Case]
+```
+[Code, command, or detailed example]
+```
+
+## Related Procedures
+
+- [Link to related procedure](related-procedure.md)
+- [Link to policy](../policies/related-policy.md)
+- [Link to reference](../references/related-reference.md)
+
+## Metadata
+
+- **Owner**: [Team/Role]
+- **Last Updated**: [YYYY-MM-DD]
+- **Version**: 1.0.0
+- **Frequency**: [How often this is typically run]
+- **Estimated Time**: [How long this takes]
 
 ---
-*Last Updated: YYYY-MM-DD*  
-*Owner: [Team/Role]*  
-*Estimated Time: XX minutes*
+
+*This document was created using the procedure template. Customize all sections as needed.*

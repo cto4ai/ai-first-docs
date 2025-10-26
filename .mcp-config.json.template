@@ -1,0 +1,15 @@
+{
+  "mcp": {
+    "docroot": "docs",
+    "include_extensions": [".md", ".txt", ".pdf"]
+  },
+  "ecosystem": {
+    "primary": "claude",
+    "supported": ["claude"],
+    "planned": ["openai"]
+  },
+  "repository": {
+    "type": "documentation",
+    "organization": "{{COMPANY_NAME}}"
+  }
+}
