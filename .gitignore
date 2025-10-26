@@ -1,12 +1,3 @@
-# Generated files
-*.pdf
-*.docx
-*.html
-docs/exports/
-build/
-dist/
-site/
-
 # OS files
 .DS_Store
 Thumbs.db
@@ -18,20 +9,6 @@ Thumbs.db
 .idea/
 *.iml
 .history/
-.claude/settings.local.json
-
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Dependency directories
-node_modules/
-jspm_packages/
-venv/
 
 # Environment files
 .env
@@ -42,28 +19,9 @@ venv/
 *.tmp
 *.bak
 .cache/
-.parcel-cache
 
-# Coverage and test files
-coverage/
-*.lcov
-.nyc_output
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# TypeScript cache
-*.tsbuildinfo
-
-# Build outputs
-.next
-.nuxt
-.vuepress/dist
-.docusaurus
-
-# But track template PDFs
-!docs/templates/*.pdf
-!docs/external/*.pdf
+# Generated content (if users add build processes)
+build/
+dist/
+site/
+docs/exports/

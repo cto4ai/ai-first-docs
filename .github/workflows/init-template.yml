@@ -14,89 +14,65 @@ jobs:
       issues: write
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
 
       - name: Personalize repository
         run: |
-          # Basic template variable replacement using repository information
+          # Extract repository information
           REPO_NAME="${{ github.event.repository.name }}"
           GITHUB_ORG="${{ github.repository_owner }}"
           COMPANY_NAME="${{ github.repository_owner }}"
-          ORGANIZATION_DOMAIN="${GITHUB_ORG}.com"
-          PRIMARY_USE_CASE="Company documentation and policies"
+          DOCROOT="docs"
+          ECOSYSTEM="claude"
 
-          echo "Personalizing repository with:"
-          echo "  REPO_NAME: $REPO_NAME"
-          echo "  GITHUB_ORG: $GITHUB_ORG"
-          echo "  COMPANY_NAME: $COMPANY_NAME"
-          echo "  ORGANIZATION_DOMAIN: $ORGANIZATION_DOMAIN"
+          echo "🚀 Personalizing repository for: $COMPANY_NAME / $REPO_NAME"
 
-          # Create personalized CLAUDE.md from template
-          if [ -f "CLAUDE.md.template" ]; then
-            echo "Creating personalized CLAUDE.md from template..."
-            sed \
-              -e "s/{{ORGANIZATION_NAME}}/$COMPANY_NAME/g" \
-              -e "s/{{REPOSITORY_NAME}}/$REPO_NAME/g" \
-              -e "s/{{ORGANIZATION_DOMAIN}}/$ORGANIZATION_DOMAIN/g" \
-              -e "s/{{PRIMARY_USE_CASE}}/$PRIMARY_USE_CASE/g" \
-              -e "s/{{GITHUB_OWNER}}/$GITHUB_ORG/g" \
-              -e "s/{{MCP_SETUP_STATUS}}/Ready for MCP configuration - see setup guide/g" \
-              "CLAUDE.md.template" > "CLAUDE.md"
-
-            # Remove template file
-            rm "CLAUDE.md.template"
-            echo "✅ CLAUDE.md created and personalized for $COMPANY_NAME"
-          else
-            echo "⚠️ CLAUDE.md.template not found - skipping Claude configuration"
-          fi
-
-          # Personalize prompt templates with repository information
-          echo "Personalizing prompt templates..."
-
-          if [ -f "docs/prompts/doc-repo-related/repo-access-instructions.md" ]; then
-            sed -i.bak \
-              -e "s/{{GITHUB_ORG}}/$GITHUB_ORG/g" \
-              -e "s/{{REPO_NAME}}/$REPO_NAME/g" \
-              "docs/prompts/doc-repo-related/repo-access-instructions.md"
-            echo "✅ Personalized repo-access-instructions.md (MCP_NAME left for manual configuration)"
-          fi
-
-          # Replace template variables in other files
-          find . -name "*.md" -o -name "*.json" -o -name "*.yml" | grep -v node_modules | grep -v CLAUDE.md | grep -v "docs/prompts" | while read -r file; do
-            echo "Processing: $file"
+          # Replace variables in all markdown and JSON files
+          echo "📝 Replacing template variables..."
+          find . -type f \( -name "*.md" -o -name "*.json" -o -name "*.template" \) \
+            ! -path "./.git/*" | while read file; do
             sed -i.bak \
               -e "s/{{REPO_NAME}}/$REPO_NAME/g" \
               -e "s/{{GITHUB_ORG}}/$GITHUB_ORG/g" \
               -e "s/{{COMPANY_NAME}}/$COMPANY_NAME/g" \
-              -e "s/{{ORGANIZATION_NAME}}/$COMPANY_NAME/g" \
-              -e "s/{{REPOSITORY_NAME}}/$REPO_NAME/g" \
-              -e "s/{{ORGANIZATION_DOMAIN}}/$ORGANIZATION_DOMAIN/g" \
-              -e "s/{{DOCS_EMAIL}}/docs@${ORGANIZATION_DOMAIN}/g" \
-              -e "s/{{SLACK_CHANNEL}}/#docs-help/g" \
+              -e "s/{{DOCROOT}}/$DOCROOT/g" \
+              -e "s/{{ECOSYSTEM}}/$ECOSYSTEM/g" \
               "$file"
           done
 
           # Clean up backup files
           find . -name "*.bak" -delete
+          echo "✅ Template variables replaced"
 
-          # Replace template README with user README
+          # Create .mcp-config.json from template
+          if [ -f ".mcp-config.json.template" ]; then
+            mv .mcp-config.json.template .mcp-config.json
+            echo "✅ .mcp-config.json created"
+          fi
+
+          # Create CLAUDE.md from template
+          if [ -f "CLAUDE.md.template" ]; then
+            mv CLAUDE.md.template CLAUDE.md
+            echo "✅ CLAUDE.md created"
+          fi
+
+          # Process docs/skills/README.md.template
+          if [ -f "docs/skills/README.md.template" ]; then
+            mv docs/skills/README.md.template docs/skills/README.md
+            echo "✅ docs/skills/README.md created"
+          fi
+
+          # Process any other .template files
+          find . -name "*.template" -type f ! -path "./.git/*" | while read template; do
+            target="${template%.template}"
+            mv "$template" "$target"
+            echo "✅ Created ${target}"
+          done
+
+          # Swap README files
+          echo "📄 Swapping README files..."
+          rm README.md
           mv USER_README.md README.md
-
-          # Keep docs/examples for reference (AI-first difference)
-          echo "Keeping example content for AI-first workflow reference"
-
-          # Remove template instructions if they exist
-          rm -f TEMPLATE_INSTRUCTIONS.md
-
-      - name: Install dependencies
-        run: |
-          echo "Installing Node.js dependencies..."
-          npm install
-          echo "Dependencies installed successfully!"
+          echo "✅ README.md swapped"
 
       - name: Create setup issue
         uses: actions/github-script@v7
@@ -105,65 +81,48 @@ jobs:
             github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: '🤖 AI-First Documentation Repository Ready!',
-              body: `## Welcome to your personalized AI-first documentation repository!
+              title: '🚀 AI-First Documentation Repository Initialized',
+              body: `## Welcome to your AI-first documentation repository!
 
-              Your repository has been automatically configured with:
-              - ✅ Template variables replaced with your organization information
-              - ✅ Copy-paste prompts personalized in \`docs/prompts/doc-repo-related/\`
-              - ✅ Example policies available for reference and testing
-              - ✅ Dependencies installed and validation ready
+              Your repository has been automatically configured.
 
-              ### 🚀 Quick Start with Claude Desktop
-
-              **For the best experience**, start each Claude Desktop chat by:
-              1. Open \`docs/prompts/doc-repo-related/repo-access-instructions.md\`
-              2. Replace \`{{MCP_NAME}}\` with your actual MCP configuration name from Claude Desktop settings
-              3. Copy and paste the personalized prompt into Claude
-
-              This tells Claude how to access your repository. Then try:
-              - **"Show me the policies in this repository"**
-              - **"Load the vacation policy"** (then use the coaxing prompt to open as artifact)
-              - **"Create a new remote work policy for our company"**
+              ### ✅ What's Ready
+              - Documentation structure in \`docs/\`
+              - MCP configuration with docroot = \`docs/\`
+              - Simple document templates
+              - Claude Ecosystem integration ready
 
               ### 📋 Next Steps
-              1. [ ] Set up GitHub Personal Access Token for AI integration
-              2. [ ] Configure Claude Desktop or compatible AI interface
-              3. [ ] Test AI editing with example content in \`docs/examples/\`
-              4. [ ] Configure branch protection rules in Settings → Branches
-              5. [ ] Set up team permissions in Settings → Manage access
 
-              ### 🛠️ AI Integration Setup (For Non-Technical Users)
-              1. **GitHub PAT**: Create organization-scoped fine-grained token
-              2. **MCP Configuration**: Set up GitHub MCP in Claude Desktop
-              3. **Copy Prompts**: Use prompts from \`docs/prompts/doc-repo-related/\` to start each chat
-              4. **Test Workflow**: Try editing example policies with AI assistance
-              5. **AI Workflow**: Direct commits to main branch (no PR required)
+              **1. Install Prerequisites**
+              - [ ] Install [github-repos-manager-mcp](https://github.com/cto4ai/github-repos-manager-mcp) v3.0+
+              - [ ] Install [github-docs-skill](https://github.com/cto4ai/claude-skills)
 
-              ### 👨‍💻 Technical Contributor Setup (Optional)
-              For developers and technical writers who prefer traditional workflows:
-              - **Pull Request Workflow**: Create PRs for documentation changes
-              - **Full CI/CD Validation**: Automatic linting, spell check, and link validation
-              - **Local Development**: Run \`npm run validate\` to check documentation quality
-              - **Quality Assurance**: All manual edits go through validation before merge
+              **2. Configure MCP**
+              See [\`.github/DOCUMENTATION/claude-ecosystem-setup.md\`](.github/DOCUMENTATION/claude-ecosystem-setup.md) for setup instructions.
 
-              ### 🔄 Dual Workflow Benefits
-              - **Non-technical users**: AI-first editing with no technical barriers
-              - **Technical users**: Traditional PR workflow with full validation
-              - **Quality maintained**: Each workflow has appropriate quality controls
-              - **Team flexibility**: Choose the right workflow for each contributor
+              **3. Test Integration**
+              \`\`\`
+              You: "Get the catalog of documents in this repository"
+              Claude: [Shows docs/ structure]
+              \`\`\`
 
-              ### 📖 Learn More
-              - [AI-First Documentation Strategy](.github/DOCUMENTATION/ai-first-documentation-strategy.md)
-              - [Example Policies](docs/examples/policies/) for reference
-              - [Copy-Paste Prompts](docs/prompts/doc-repo-related/) for Claude Desktop
-              - [Setup Guide](.claude/DOCUMENT_ASSISTANT.md) explains the prompt-based approach
+              **4. Start Documenting**
+              - Use templates in \`docs/templates/\`
+              - Work through AI (Claude Desktop or Claude.ai with Skills)
+              - Or edit directly in GitHub
 
-              **Ready to revolutionize your documentation workflow?** Ask your AI assistant: *"How do I create my first company policy using this repository?"*
+              ### 🔮 Future Features
+              See [\`.github/DOCUMENTATION/future-features/\`](.github/DOCUMENTATION/future-features/) for planned enhancements like AI metadata frontmatter and auto-summary generation.
 
-              You can close this issue when your AI-first workflow is set up and tested!`
+              ### 📖 Resources
+              - [Setup Guide](.github/DOCUMENTATION/claude-ecosystem-setup.md) (when available)
+              - [AI-First Strategy](.github/DOCUMENTATION/ai-first-strategy.md) (when available)
+              - [Document Templates](docs/templates/)
+
+              Close this issue when setup is complete!`
             })
-      
+
       - name: Commit personalized changes
         run: |
           # Delete this initialization workflow
@@ -175,13 +134,22 @@ jobs:
 
           # Check if there are changes to commit
           if [[ -n $(git status --porcelain) ]]; then
-            echo "Committing personalized changes..."
+            echo "📦 Committing personalized changes..."
             git add -A
-            git commit -m "Initialize documentation repository from template - Replace template variables with repository information - Remove example content and template instructions - Set up basic configuration - Remove initialization workflow"
+            git commit -m "Initialize from ai-first-docs template
 
-            echo "Pushing changes..."
+            - Replace template variables
+            - Create .mcp-config.json from template
+            - Create CLAUDE.md from template
+            - Swap template README with repo README
+            - Remove initialization workflow
+
+            Repository: ${{ github.repository }}
+            Owner: ${{ github.repository_owner }}"
+
+            echo "⬆️ Pushing changes..."
             git push
-            echo "Repository initialization complete!"
+            echo "✅ Repository initialization complete!"
           else
-            echo "No changes to commit"
+            echo "ℹ️ No changes to commit"
           fi
