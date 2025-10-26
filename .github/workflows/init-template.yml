@@ -49,12 +49,6 @@ jobs:
             echo "✅ .mcp-config.json created"
           fi
 
-          # Create CLAUDE.md from template
-          if [ -f "CLAUDE.md.template" ]; then
-            mv CLAUDE.md.template CLAUDE.md
-            echo "✅ CLAUDE.md created"
-          fi
-
           # Process docs/skills/README.md.template
           if [ -f "docs/skills/README.md.template" ]; then
             mv docs/skills/README.md.template docs/skills/README.md
@@ -67,6 +61,13 @@ jobs:
             mv "$template" "$target"
             echo "✅ Created ${target}"
           done
+
+          # Clean up template-only files from .github/DOCUMENTATION/
+          echo "🧹 Removing template development files..."
+          rm -f .github/DOCUMENTATION/V2.0-RESTRUCTURE-PLAN.md
+          rm -f .github/DOCUMENTATION/TEMPLATE-README.md
+          rm -rf .github/DOCUMENTATION/future-features
+          echo "✅ Template-only files removed"
 
           # Swap README files
           echo "📄 Swapping README files..."
@@ -94,31 +95,42 @@ jobs:
 
               ### 📋 Next Steps
 
-              **1. Install Prerequisites**
-              - [ ] Install [github-repos-manager-mcp](https://github.com/cto4ai/github-repos-manager-mcp) v3.0+
-              - [ ] Install [github-docs-skill](https://github.com/cto4ai/claude-skills)
+              **1. Install Prerequisites** (choose one or both):
+              - [ ] Install [github-repos-manager-mcp](https://github.com/cto4ai/github-repos-manager-mcp) v3.0+ (for Claude Desktop)
+              - [ ] Install [github-docs-skill](https://github.com/cto4ai/claude-skills) (for Claude.ai)
 
-              **2. Configure MCP**
-              See [\`.github/DOCUMENTATION/claude-ecosystem-setup.md\`](.github/DOCUMENTATION/claude-ecosystem-setup.md) for setup instructions.
-
-              **3. Test Integration**
+              **2. Test Integration**
               \`\`\`
               You: "Get the catalog of documents in this repository"
               Claude: [Shows docs/ structure]
               \`\`\`
 
-              **4. Start Documenting**
+              **3. Start Documenting**
               - Use templates in \`docs/templates/\`
-              - Work through AI (Claude Desktop or Claude.ai with Skills)
+              - Work through AI (Claude Desktop with MCP or Claude.ai with Skills)
               - Or edit directly in GitHub
 
-              ### 🔮 Future Features
-              See [\`.github/DOCUMENTATION/future-features/\`](.github/DOCUMENTATION/future-features/) for planned enhancements like AI metadata frontmatter and auto-summary generation.
-
               ### 📖 Resources
-              - [Setup Guide](.github/DOCUMENTATION/claude-ecosystem-setup.md) (when available)
-              - [AI-First Strategy](.github/DOCUMENTATION/ai-first-strategy.md) (when available)
-              - [Document Templates](docs/templates/)
+              - [AI-First Strategy](.github/DOCUMENTATION/ai-first-strategy.md) - Explains the approach
+              - [Document Templates](docs/templates/) - Policy, procedure, and guide templates
+              - [MCP Configuration](.mcp-config.json) - Repository settings
+
+              ### 🎯 Quick Examples
+
+              **Create a policy:**
+              \`\`\`
+              You: "Create a remote work policy using the policy template"
+              \`\`\`
+
+              **Find documents:**
+              \`\`\`
+              You: "Show me all the policies in this repository"
+              \`\`\`
+
+              **Update content:**
+              \`\`\`
+              You: "Update the [document name] to include [new requirement]"
+              \`\`\`
 
               Close this issue when setup is complete!`
             })
@@ -127,6 +139,12 @@ jobs:
         run: |
           # Delete this initialization workflow
           rm .github/workflows/init-template.yml
+
+          # If .github/workflows/ is now empty, remove it
+          if [ -z "$(ls -A .github/workflows 2>/dev/null)" ]; then
+            rm -rf .github/workflows
+            echo "✅ Empty workflows directory removed"
+          fi
 
           # Configure git
           git config user.name "GitHub Actions"
@@ -140,8 +158,8 @@ jobs:
 
             - Replace template variables
             - Create .mcp-config.json from template
-            - Create CLAUDE.md from template
             - Swap template README with repo README
+            - Remove template development files
             - Remove initialization workflow
 
             Repository: ${{ github.repository }}
